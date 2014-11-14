@@ -1,0 +1,12 @@
+{
+  "trainers": ["John", "Bob", "Henry"],
+  "subjects": ["Angular", "Node", "JS"],
+  "clients": ["Arnold", "SuperTrainers inc."],
+  "dates": [
+    { "state": "confirmed",   "trainer": "John", "subject": "Angular", "client": "Arnold",              "days": ["2014-12-22", "2014-12-24"] },
+    { "state": "busy",        "trainer": "Bob",                                                         "days": ["2014-12-01", "2014-12-31"] },
+    { "state": "unconfirmed", "trainer": "John", "subject": "Angular", "client": "SuperTrainers inc.",  "days": ["2015-01-20", "2015-01-22"] },
+    { "state": "unconfirmed", "trainer": "Bob",  "subject": null,                                       "days": ["2015-01-15", "2015-01-31"] },
+    { "state": "unconfirmed", "trainer": "Bob",  "subject": null,      "client": "Arnold",              "days": ["2015-02-01", "2015-02-20"] }
+  ]
+}

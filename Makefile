@@ -1,7 +1,7 @@
 SOURCE = src/app.js
 LIBS = $(shell ls src/lib/*.js)
 TARGET = src/build.js
-FLAGS = -t reactify
+FLAGS = -t reactify -t es6ify
 
 WATCHIFY = ./node_modules/.bin/watchify
 BROWSERIFY = ./node_modules/.bin/browserify

@@ -1,0 +1,44 @@
+/*
+table {
+  border-width:1px;
+  border-style:solid;
+  border-color:black;
+}
+th, td {
+  border-width:1px;
+  border-style:solid;
+  border-color:red;
+}
+*/
+
+table {
+  border-collapse: collapse;
+  border: 2px solid #aaa;
+}
+
+.trainers th.day, .months th, tbody .day {
+  background: #ccc;
+}
+.years th {
+  background: #aaa;
+  border: 2px solid #999;
+}
+.trainers th.day, .months th, tbody .day, tbody .day-invalid {
+  border-left: 2px solid #aaa;
+}
+
+tbody .date {
+  background: white;
+}
+tbody .date.busy {
+  background: #999;
+}
+tbody .date.confirmed {
+  background: red;
+}
+tbody .date.unconfirmed {
+  background: orange;
+}
+tbody .date.confirmed.no-subject, tbody .date.unconfirmed.no-subject {
+  background: green;
+}

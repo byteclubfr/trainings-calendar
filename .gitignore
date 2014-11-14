@@ -28,3 +28,4 @@ node_modules
 .lock-wscript
 src/build.js
 src/build-dev.js
+src/data/calendar.json
