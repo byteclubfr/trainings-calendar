@@ -15,5 +15,16 @@
   "bugs": {
     "url": "https://github.com/lmtm/trainings-calendar/issues"
   },
-  "homepage": "https://github.com/lmtm/trainings-calendar"
+  "homepage": "https://github.com/lmtm/trainings-calendar",
+  "dependencies": {
+    "compression": "^1.2.0",
+    "connect": "^3.3.3",
+    "errorhandler": "^1.2.2",
+    "instant": "^1.5.0",
+    "morgan": "^1.5.0",
+    "open": "0.0.5",
+    "optimist": "^0.6.1",
+    "serve-favicon": "^2.1.6",
+    "serve-static": "^1.7.1"
+  }
 }
