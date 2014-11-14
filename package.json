@@ -30,6 +30,7 @@
   "devDependencies": {
     "browserify": "^6.3.2",
     "react": "^0.12.0",
-    "reactify": "^0.16.0"
+    "reactify": "^0.16.0",
+    "watchify": "^2.1.1"
   }
 }

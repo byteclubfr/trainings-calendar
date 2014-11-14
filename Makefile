@@ -1,22 +1,30 @@
-.PHONY: build clean build-notify
+SOURCE = src/app.js
+LIBS = $(shell ls src/lib/*.js)
+TARGET = src/build.js
+FLAGS = -t reactify
 
-build: src/build.js
+WATCHIFY = ./node_modules/.bin/watchify
+BROWSERIFY = ./node_modules/.bin/browserify
+NPM = npm
 
-build-dev: src/build-dev.js
+# make sourcemap=1 build
+ifdef sourcemap
+	FLAGS += --debug
+endif
+
+.PHONY: build clean watch
+
+build: $(TARGET)
 
 clean:
-	rm -f src/build.js
+	rm -f $(TARGET)
 
-build-notify:
-	make build -q || (make build && notify-send "Built")
+watch:
+	$(WATCHIFY) $(FLAGS) -o $(TARGET) -- $(SOURCE)
 
 # Note: browserify --list is so slow, just rely on node_modules
-src/build.js: src/app.js $(shell ls src/lib/*.js) node_modules
-	./node_modules/.bin/browserify --debug -t reactify -o $@ -- $<
-
-# Build only base libraries, the rest is loaded using individual <script>
-src/build-dev.js: node_modules
-	./node_modules/.bin/browserify -r react -r react/dist/JSXTransformer -o $@
+$(TARGET): $(SOURCE) $(LIBS) node_modules
+	$(BROWSERIFY) $(FLAGS) -o $@ -- $<
 
 node_modules:
-	npm install
+	$(NPM) install

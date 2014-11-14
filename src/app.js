@@ -6,5 +6,4 @@ var React = require("react");
 var Calendar = require("./lib/Calendar");
 
 
-
-console.log(<Calendar />);
+React.render(<Calendar />, document.getElementById("calendar"));
