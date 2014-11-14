@@ -1,0 +1,19 @@
+{
+  "name": "trainings-calendar",
+  "version": "1.0.0",
+  "description": "Byte Club trainings calendar",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nicolas Chambrier <naholyr@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lmtm/trainings-calendar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lmtm/trainings-calendar/issues"
+  },
+  "homepage": "https://github.com/lmtm/trainings-calendar"
+}
