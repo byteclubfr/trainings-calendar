@@ -26,3 +26,5 @@ node_modules
 
 # Users Environment Variables
 .lock-wscript
+src/build.js
+src/build-dev.js
