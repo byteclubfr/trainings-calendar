@@ -13,11 +13,12 @@ module.exports = React.createClass({
 
   getDefaultProps() {
     return {
-      dates:    [], // training dates
-      trainer:  "", // trainer name
-      date:     "", // cell date (String format YYYY-MM-DD)
-      weekEnds: [], // days of week always busy
-      holidays: {}  // "YYYY-MM-DD": "holiday"
+      dates:    [],     // training dates
+      trainer:  "",     // trainer name
+      date:     "",     // cell date (String format YYYY-MM-DD)
+      weekEnds: [],     // days of week always busy
+      holidays: {},     // "YYYY-MM-DD": "holiday"
+      onOver:   _.noop  // (date, trainer, event)
     };
   },
 
@@ -35,6 +36,10 @@ module.exports = React.createClass({
 
   isHoliday() {
     return !!this.props.holidays[this.props.date];
+  },
+
+  handleMouseOver(event) {
+    this.props.onOver(this.props.date, this.props.trainer, event);
   },
 
   render() {
@@ -58,7 +63,7 @@ module.exports = React.createClass({
     }
 
     return (
-      <td className={ cx(cls) }>{ symbol }</td>
+      <td className={ cx(cls) } onMouseOver={ this.handleMouseOver }>{ symbol }</td>
     );
   }
 
