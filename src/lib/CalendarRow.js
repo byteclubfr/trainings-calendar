@@ -17,7 +17,8 @@ module.exports = React.createClass({
       day:    1,    // day of month
       dates:  [],   // training dates
       trainers: [], // trainers names
-      weekEnds: []  // days of week always busy
+      weekEnds: [], // days of week always busy
+      holidays: {}  // "YYYY-MM-DD": "holiday"
     };
   },
 
@@ -49,7 +50,8 @@ module.exports = React.createClass({
       <td className="day day-of-week">{ dayOfWeek }</td>,
       <td className="day day-of-month">{ dayOfMonth }</td>,
       this.props.trainers.map(trainer =>
-        <CalendarCell key={ "CC" + date + "_" + trainer } trainer={ trainer } date={ date } dates={ this.props.dates } weekEnds={ this.props.weekEnds } />
+        <CalendarCell key={ "CC" + date + "_" + trainer } trainer={ trainer } date={ date }
+          dates={ this.props.dates } weekEnds={ this.props.weekEnds } holidays={ this.props.holidays } />
       )
     ];
   },

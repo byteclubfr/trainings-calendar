@@ -51,6 +51,6 @@ tbody .date.unconfirmed {
 tbody .date.confirmed.no-subject, tbody .date.unconfirmed.no-subject {
   background: #6f6;
 }
-tbody .date.weekend {
+tbody .date.weekend, tbody .date.holiday {
   background: #ddd;
 }

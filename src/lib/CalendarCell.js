@@ -4,6 +4,7 @@
 
 
 var React = require("react");
+var cx = require("react/lib/cx");
 var _ = require("lodash");
 var moment = require("./moment");
 
@@ -15,7 +16,8 @@ module.exports = React.createClass({
       dates:    [], // training dates
       trainer:  "", // trainer name
       date:     "", // cell date (String format YYYY-MM-DD)
-      weekEnds: []  // days of week always busy
+      weekEnds: [], // days of week always busy
+      holidays: {}  // "YYYY-MM-DD": "holiday"
     };
   },
 
@@ -31,25 +33,32 @@ module.exports = React.createClass({
     return _.contains(this.props.weekEnds, Number(moment(this.props.date, "YYYY-MM-DD").format("d")));
   },
 
+  isHoliday() {
+    return !!this.props.holidays[this.props.date];
+  },
+
   render() {
     var symbol = "";
-    var cls = "date";
+    var holiday = this.isHoliday();
+    var weekend = this.isWeekEnd();
 
-    if (this.isWeekEnd()) {
-      cls += " weekend";
-    } else {
+    var cls = {
+      "date":     true,
+      "holiday":  holiday,
+      "weekend":  weekend
+    };
+
+    if (!holiday && !weekend) {
       var found = _.find(_.filter(this.props.dates, this.isTrainer), this.isInRange);
       if (found) {
         symbol = "×";
-        cls += " " + found.state;
-        if (!found.subject) {
-          cls += " no-subject";
-        }
+        cls[found.state] = true;
+        cls["no-subject"] = !found.subject;
       }
     }
 
     return (
-      <td className={ cls }>{ symbol }</td>
+      <td className={ cx(cls) }>{ symbol }</td>
     );
   }
 
