@@ -4,7 +4,7 @@
 
 
 var React = require("react");
-var moment = require("moment/min/moment-with-locales");
+var moment = require("./moment");
 
 var CalendarCell = require("./CalendarCell");
 

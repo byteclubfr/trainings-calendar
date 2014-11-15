@@ -5,7 +5,7 @@
 
 var React = require("react");
 var _ = require("lodash");
-var moment = require("moment/min/moment-with-locales");
+var moment = require("./moment");
 
 
 module.exports = React.createClass({
