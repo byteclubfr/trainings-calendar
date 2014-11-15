@@ -15,23 +15,32 @@ table {
   border-collapse: collapse;
   border: 2px solid #aaa;
 }
+th, td {
+  text-align: center;
+}
 
 .trainers th.day, .months th, tbody .day {
-  background: #ccc;
+  background: #ddd;
 }
 .years th {
   background: #aaa;
   border: 2px solid #999;
 }
-.trainers th.day, .months th, tbody .day, tbody .day-invalid {
+tbody .day-of-month {
+  font-weight: bold;
+}
+.trainers th.day, .months th, tbody .day-of-week, tbody .day-invalid {
   border-left: 2px solid #aaa;
+}
+.trainers th.trainer {
+  width: 20px;
 }
 
 tbody .date {
   background: white;
 }
 tbody .date.busy {
-  background: #999;
+  background: #bbb;
 }
 tbody .date.confirmed {
   background: red;
@@ -40,5 +49,8 @@ tbody .date.unconfirmed {
   background: orange;
 }
 tbody .date.confirmed.no-subject, tbody .date.unconfirmed.no-subject {
-  background: green;
+  background: #6f6;
+}
+tbody .date.weekend {
+  background: #ddd;
 }

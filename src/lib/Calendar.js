@@ -17,7 +17,8 @@ module.exports = React.createClass({
     return {
       months: 6,
       start:  null, // automatic from state.dates, or [year, month]
-      locale: "fr"
+      locale: "fr",
+      weekEnds: [6, 0]
     };
   },
 
@@ -28,7 +29,8 @@ module.exports = React.createClass({
       subjects: [],
       dates:    [],
       months:   this.props.months,
-      start:    this.props.start
+      start:    this.props.start,
+      weekEnds: this.props.weekEnds
     }
   },
 
@@ -53,9 +55,9 @@ module.exports = React.createClass({
     return (
       <table className="calendar">
         <CalendarHeader moments={ months } trainers={ this.state.trainers } />
-        <tbody>
-          { _.range(31).map(day => <CalendarRow key={ "R" + day } months={ months } day={ day + 1 } dates={ dates } trainers={ this.state.trainers } />) }
-        </tbody>
+        <tbody>{ _.range(31).map(day =>
+          <CalendarRow key={ "R" + day } months={ months } day={ day + 1 } dates={ dates } trainers={ this.state.trainers } weekEnds={ this.state.weekEnds } />
+        ) }</tbody>
       </table>
     );
   }

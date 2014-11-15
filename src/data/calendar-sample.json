@@ -8,5 +8,6 @@
     { "state": "unconfirmed", "trainer": "John", "subject": "Angular", "client": "SuperTrainers inc.",  "days": ["2015-01-20", "2015-01-22"] },
     { "state": "unconfirmed", "trainer": "Bob",  "subject": null,                                       "days": ["2015-01-15", "2015-01-31"] },
     { "state": "unconfirmed", "trainer": "Bob",  "subject": null,      "client": "Arnold",              "days": ["2015-02-01", "2015-02-20"] }
-  ]
+  ],
+  "weekEnds": [0, 6]
 }

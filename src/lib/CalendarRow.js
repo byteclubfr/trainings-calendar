@@ -11,6 +11,16 @@ var CalendarCell = require("./CalendarCell");
 
 module.exports = React.createClass({
 
+  getDefaultProps() {
+    return {
+      months: [],   // visible months, instances of moment
+      day:    1,    // day of month
+      dates:  [],   // training dates
+      trainers: [], // trainers names
+      weekEnds: []  // days of week always busy
+    };
+  },
+
   renderDay() {
     var day = String(this.props.day);
     if (day.length < 2) {
@@ -38,7 +48,9 @@ module.exports = React.createClass({
     return [
       <td className="day day-of-week">{ dayOfWeek }</td>,
       <td className="day day-of-month">{ dayOfMonth }</td>,
-      this.props.trainers.map(trainer => <CalendarCell key={ "CC" + date + "_" + trainer } trainer={ trainer } date={ date } dates={ this.props.dates } />)
+      this.props.trainers.map(trainer =>
+        <CalendarCell key={ "CC" + date + "_" + trainer } trainer={ trainer } date={ date } dates={ this.props.dates } weekEnds={ this.props.weekEnds } />
+      )
     ];
   },
 
