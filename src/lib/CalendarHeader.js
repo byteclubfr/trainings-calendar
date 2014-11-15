@@ -10,11 +10,11 @@ var _ = require("lodash");
 module.exports = React.createClass({
 
   renderYearHeader (nb, year) {
-    return <th key={ "HY" + year } colSpan={ nb * (this.props.trainers.length + 1) }>{ year }</th>;
+    return <th key={ "HY" + year } colSpan={ nb * (this.props.trainers.length + 2) }>{ year }</th>;
   },
 
   renderMonthHeader(date) {
-    return <th key={ "HM" + date.format("MM") } colSpan={ this.props.trainers.length + 1 }>{ date.format("MMMM") }</th>;
+    return <th key={ "HM" + date.format("MM") } colSpan={ this.props.trainers.length + 2 }>{ date.format("MMMM") }</th>;
   },
 
   renderTrainerHeader(id) {
@@ -27,7 +27,7 @@ module.exports = React.createClass({
     var id = "HD" + month.format("YYYY-MM");
 
     return [
-      <th className="day" />,
+      <th className="day" colSpan="2" />,
       this.props.trainers.map(this.renderTrainerHeader(id))
     ];
   },

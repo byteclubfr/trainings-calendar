@@ -21,14 +21,23 @@ module.exports = React.createClass({
   },
 
   renderMonth(month) {
-    var date = month.format("YYYY-MM") + "-" + this.props.day;
-
-    if (!moment(date, "YYYY-MM-DD").isValid()) {
-      return <td key={ "CI" + date } className="day-invalid" colSpan={ this.props.trainers.length + 1 } />;
+    var dayOfMonth = String(this.props.day);
+    if (dayOfMonth.length < 2) {
+      dayOfMonth = "0" + dayOfMonth;
     }
 
+    var date = month.format("YYYY-MM") + "-" + dayOfMonth;
+    var mDate = moment(date, "YYYY-MM-DD").locale(month.locale());
+
+    if (!mDate.isValid()) {
+      return <td key={ "CI" + date } className="day day-invalid" colSpan={ this.props.trainers.length + 2 } />;
+    }
+
+    var dayOfWeek = mDate.format("dd");
+
     return [
-      <td className="day">{ this.renderDay() }</td>,
+      <td className="day day-of-week">{ dayOfWeek }</td>,
+      <td className="day day-of-month">{ dayOfMonth }</td>,
       this.props.trainers.map(trainer => <CalendarCell key={ "CC" + date + "_" + trainer } trainer={ trainer } date={ date } dates={ this.props.dates } />)
     ];
   },
