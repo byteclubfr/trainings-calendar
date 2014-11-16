@@ -45,8 +45,11 @@ tbody .date.busy {
 tbody .date.confirmed {
   background: red;
 }
-tbody .date.unconfirmed {
+tbody .date.unconfirmed, tbody .date.adding {
   background: orange;
+}
+tbody .date.adding {
+  outline: 1px solid black;
 }
 tbody .date.confirmed.no-subject, tbody .date.unconfirmed.no-subject {
   background: #6f6;

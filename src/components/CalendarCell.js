@@ -14,20 +14,12 @@ module.exports = React.createClass({
 
   getDefaultProps() {
     return {
-      dates:    [], // training dates
+      dates:    {}, // training dates
       trainer:  "", // trainer name
       date:     "", // cell date (String format YYYY-MM-DD)
       weekEnds: [], // days of week always busy
       holidays: {}  // "YYYY-MM-DD": "holiday"
     };
-  },
-
-  isTrainer(date) {
-    return this.props.trainer === date.trainer;
-  },
-
-  isInRange(date) {
-    return this.props.date >= date.days[0] && this.props.date <= date.days[1];
   },
 
   isWeekEnd() {
@@ -53,7 +45,7 @@ module.exports = React.createClass({
       "weekend":  weekend
     };
 
-    var found = _.findLast(_.filter(this.props.dates, this.isTrainer), this.isInRange);
+    var found = (((this.props.dates || {})[this.props.trainer]) || {})[this.props.date];
 
     if (found && !found.adding && (holiday || weekend)) {
       // adding date > holiday & weekend > normal date

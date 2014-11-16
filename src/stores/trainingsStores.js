@@ -8,13 +8,77 @@ var actions = require("../actions/trainingsActions");
 
 var _dates = null;
 
+function _range(start, endDayOrNbDays) {
+  var start = moment(start, "YYYY-MM-DD");
+  if (_.isNumber(endDayOrNbDays)) {
+    return _.range(endDayOrNbDays).map(v => moment(start).add(v, "days"));
+  } else {
+    var end = moment(endDayOrNbDays, "YYYY-MM-DD");
+    return [start].concat(_.range(end.diff(start, "days") - 2).map(v => moment(start).add(v + 1, "days"))).concat([end]);
+  }
+}
+
+// Date: {state, trainer, subject, client, days: ["ymd", "ymd"]}
 exports.datesStore = Reflux.createStore({
   listenables: actions,
 
-  onDatesChange(dates) {
-    _dates = dates;
-    this.trigger(dates);
+  range: _range,
+
+  // input:  Date
+  // output: {"ymd": Date}
+  indexedDate(date) {
+    var range = this.range(date.days[0], date.days[1]);
+    var keys = _.invoke(range, "format", "YYYY-MM-DD");
+    var values = _.map(range, _.constant(date));
+
+    return _.object(keys, values);
   },
+
+  // input:  [Date]
+  // output: [Date, indexed: {"trainer": {"ymd": Date}}, min: "ymd"]
+  onDatesChange(dates) {
+    var indexed = _.reduce(dates, (index, date) => _.merge(index, _.object([date.trainer], [this.indexedDate(date)])), {});
+    var min = _.min(_.pluck(_.pluck(dates, "days"), 0), function (d) { return Number(d.replace(/-/g, '')) });
+
+    _dates = _.merge(dates, {
+      "indexed":  indexed,
+      "min":      min
+    });
+
+    console.log("INDEX", indexed);
+
+    this.trigger(_dates);
+  },
+
+  concat(date) {
+    if (!date.days) {
+      // No "days" field: supposed to be guessable from "startDay" and "nbDays"
+      var start, mStart;
+      if (date.startDay) {
+        start = date.startDay;
+        mStart = moment(start, "YYYY-MM-DD");
+      } else {
+        mStart = moment();
+        start = mStart.format("YYYY-MM-DD");
+      }
+      var end = mStart.add((date.nbDays || 1) - 1, "days").format("YYYY-MM-DD");
+      console.log(start, end);
+      date.days = [start, end];
+    }
+
+    var dates = (_dates || []).concat([date]);
+    var indexed = (_dates && _.clone(_dates.indexed)) || {};
+    var min = (_dates && _dates.min) || date.days[0];
+
+    if (date.days[0] < min) {
+      min = date.days[0];
+    }
+
+    return _.merge(dates, {
+      "indexed":  _.merge(indexed, _.object([date.trainer], [this.indexedDate(date)])),
+      "min":      min
+    });
+  }
 });
 
 var _holidays = null;
@@ -42,8 +106,7 @@ exports.weekEndsStore = Reflux.createStore({
 
 // returns {available:Boolean, reason:String}
 function _availability(trainer, startDay, nbDays) {
-  var startDate = moment(startDay, "YYYY-MM-DD");
-  var range = _.range(nbDays).map(v => moment(startDate).add(v, "days"));
+  var range = _range(startDay, nbDays);
 
   // Week-End in range?
   if (_weekEnds && _weekEnds.length) {
