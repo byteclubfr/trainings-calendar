@@ -16,10 +16,12 @@ var CalendarRow = require("./CalendarRow");
 module.exports = React.createClass({
 
   mixins: [
-    Reflux.connect(trainingsStores.datesStore, "dates"),
+    Reflux.connect(trainingsStores.datesStore,    "dates"),
+    Reflux.connect(trainingsStores.holidaysStore, "holidays"),
+    Reflux.connect(trainingsStores.weekEndsStore, "weekEnds"),
     Reflux.connect(trainingsStores.trainersStore, "trainers"),
     Reflux.connect(trainingsStores.subjectsStore, "subjects"),
-    Reflux.connect(trainingsStores.addingStore, "adding")
+    Reflux.connect(trainingsStores.addingStore,   "adding")
   ],
 
   getDefaultProps() {
@@ -37,14 +39,14 @@ module.exports = React.createClass({
       locale:   this.props.locale,
       months:   this.props.months,
       start:    this.props.start,
-      weekEnds: this.props.weekEnds,
-      holidays: this.props.holidays,
 
       // Updated from stores
       dates:    [],
       trainers: [],
       subjects: [],
-      adding:   null
+      adding:   null,
+      weekEnds: this.props.weekEnds,
+      holidays: this.props.holidays
     }
   },
 
@@ -70,6 +72,7 @@ module.exports = React.createClass({
       var endDay = moment(this.state.adding.startDay, "YYYY-MM-DD").add(this.state.adding.nbDays - 1, "days").format("YYYY-MM-DD");
       dates = dates.concat({
         "state":    "unconfirmed",
+        "adding":   this.state.adding.available,
         "trainer":  this.state.adding.trainer,
         "subject":  this.state.adding.subject,
         "client":   this.state.adding.client,

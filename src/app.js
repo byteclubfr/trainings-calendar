@@ -18,14 +18,10 @@ xhr.send();
 xhr.onreadystatechange = function() {
   if (xhr.readyState === 4 && xhr.status === 200) {
     var data = JSON.parse(xhr.responseText);
-    if (data.dates) {
-      actions.datesChange(data.dates);
-    }
-    if (data.trainers) {
-      actions.trainersChange(data.trainers);
-    }
-    if (data.subjects) {
-      actions.subjectsChange(data.subjects);
-    }
+    actions.datesChange(data.dates);
+    actions.holidaysChange(data.holidays);
+    actions.weekEndsChange(data.weekEnds);
+    actions.trainersChange(data.trainers);
+    actions.subjectsChange(data.subjects);
   }
 };

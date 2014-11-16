@@ -53,12 +53,25 @@ module.exports = React.createClass({
       "weekend":  weekend
     };
 
-    if (!holiday && !weekend) {
-      var found = _.find(_.filter(this.props.dates, this.isTrainer), this.isInRange);
-      if (found) {
-        symbol = "×";
-        cls[found.state] = true;
-        cls["no-subject"] = !found.subject;
+    var found = _.findLast(_.filter(this.props.dates, this.isTrainer), this.isInRange);
+
+    if (found && !found.adding && (holiday || weekend)) {
+      // adding date > holiday & weekend > normal date
+      found = null;
+    }
+
+    if (found) {
+      symbol = "×";
+      cls[found.state] = true;
+      cls["no-subject"] = !found.subject;
+
+      if (found.adding) {
+        cls["valid"] = found.adding.available;
+        cls["invalid"] = !found.adding.available;
+        cls[found.adding.reason] = true;
+        if (!found.adding.available) {
+          symbol = "ø";
+        }
       }
     }
 

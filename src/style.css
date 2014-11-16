@@ -54,3 +54,11 @@ tbody .date.confirmed.no-subject, tbody .date.unconfirmed.no-subject {
 tbody .date.weekend, tbody .date.holiday {
   background: #ddd;
 }
+
+
+#calendar {
+  float: left;
+}
+#new-training-form {
+  float: right;
+}
