@@ -7,5 +7,7 @@ module.exports = Reflux.createActions([
   "trainersChange",
   "subjectsChange",
   "addStart",
-  "addChange"
+  "addChange",
+  "addEnd",
+  "datesAdd"
 ]);

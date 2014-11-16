@@ -69,14 +69,13 @@ module.exports = React.createClass({
     var dates = this.state.dates;
 
     if (this.state.adding && this.state.adding.complete) {
-      var endDay = moment(this.state.adding.startDay, "YYYY-MM-DD").add(this.state.adding.nbDays - 1, "days").format("YYYY-MM-DD");
       dates = dates.concat({
-        "state":    "unconfirmed",
+        "state":    "adding",
         "adding":   this.state.adding.available,
         "trainer":  this.state.adding.trainer,
         "subject":  this.state.adding.subject,
         "client":   this.state.adding.client,
-        "days":     [this.state.adding.startDay, endDay]
+        "days":     this.state.adding.days
       });
     }
 

@@ -6,6 +6,47 @@ var moment = require("../lib/moment");
 var actions = require("../actions/trainingsActions");
 
 
+var _willAdd = null, _adding = null;
+
+exports.addingStore = Reflux.createStore({
+  listenables: actions,
+
+  onAddStart(data) {
+    _willAdd = {
+      nbDays:   data.nbDays,
+      subject:  data.subject,
+      client:   data.client
+    };
+
+    this.trigger(_.merge({ complete: false }, _willAdd));
+  },
+
+  onAddChange(data) {
+    if (_willAdd) {
+      var start = moment(data.date, "YYYY-MM-DD");
+      var end = moment(start).add(_willAdd.nbDays - 1, "days");
+      _adding = {
+        trainer:    data.trainer,
+        days:       [start.format("YYYY-MM-DD"), end.format("YYYY-MM-DD")],
+        subject:    _willAdd.subject,
+        client:     _willAdd.client,
+        available:  _availability(data.trainer, data.date, _willAdd.nbDays),
+      };
+
+      this.trigger(_.merge({ complete: true }, _adding));
+    }
+  },
+
+  onAddEnd() {
+    _willAdd = null;
+    _adding = null;
+
+    this.trigger({complete: false});
+  }
+});
+
+
+
 var _dates = null;
 
 exports.datesStore = Reflux.createStore({
@@ -13,8 +54,21 @@ exports.datesStore = Reflux.createStore({
 
   onDatesChange(dates) {
     _dates = dates;
-    this.trigger(dates);
+
+    this.trigger(_dates);
   },
+
+  onDatesAdd(date) {
+    if (!date && _adding && _adding.available.available) {
+      date = _adding;
+    }
+
+    if (date) {
+      _dates.push(_.merge({ state: "unconfirmed" }, date));
+
+      this.trigger(_dates);
+    }
+  }
 });
 
 var _holidays = null;
@@ -94,35 +148,5 @@ exports.subjectsStore = Reflux.createStore({
 
   onSubjectsChange(subjects) {
     this.trigger(subjects);
-  }
-});
-
-
-
-var _willAdd = null;
-
-exports.addingStore = Reflux.createStore({
-  listenables: actions,
-
-  onAddStart(data) {
-    _willAdd = {
-      nbDays:   data.nbDays,
-      subject:  data.subject
-    };
-
-    this.trigger(_.merge({
-      complete: false,
-    }, _willAdd));
-  },
-
-  onAddChange(data) {
-    if (_willAdd) {
-      this.trigger(_.merge({
-        trainer:    data.trainer,
-        startDay:   data.date,
-        available:  _availability(data.trainer, data.date, _willAdd.nbDays),
-        complete:   true
-      }, _willAdd));
-    }
   }
 });

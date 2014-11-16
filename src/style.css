@@ -48,6 +48,14 @@ tbody .date.confirmed {
 tbody .date.unconfirmed {
   background: orange;
 }
+tbody .date.adding {
+  background: yellow;
+  cursor: move;
+}
+tbody .date.adding.invalid {
+  background: #ddd;
+  cursor: not-allowed;
+}
 tbody .date.confirmed.no-subject, tbody .date.unconfirmed.no-subject {
   background: #6f6;
 }

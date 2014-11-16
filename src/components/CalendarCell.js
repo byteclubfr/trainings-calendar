@@ -42,6 +42,11 @@ module.exports = React.createClass({
     actions.addChange({date: this.props.date, trainer: this.props.trainer, event: event});
   },
 
+  handleClick(event) {
+    actions.datesAdd();
+    actions.addEnd();
+  },
+
   render() {
     var symbol = "";
     var holiday = this.isHoliday();
@@ -53,7 +58,7 @@ module.exports = React.createClass({
       "weekend":  weekend
     };
 
-    var found = _.findLast(_.filter(this.props.dates, this.isTrainer), this.isInRange);
+    var found = this._found = _.findLast(_.filter(this.props.dates, this.isTrainer), this.isInRange);
 
     if (found && !found.adding && (holiday || weekend)) {
       // adding date > holiday & weekend > normal date
@@ -76,7 +81,7 @@ module.exports = React.createClass({
     }
 
     return (
-      <td className={ cx(cls) } onMouseOver={ this.handleMouseOver }>{ symbol }</td>
+      <td className={ cx(cls) } onMouseOver={ this.handleMouseOver } onClick={ this.handleClick }>{ symbol }</td>
     );
   }
 
