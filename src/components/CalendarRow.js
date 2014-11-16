@@ -4,7 +4,7 @@
 
 
 var React = require("react");
-var moment = require("./moment");
+var moment = require("../lib/moment");
 var _ = require("lodash");
 
 var CalendarCell = require("./CalendarCell");

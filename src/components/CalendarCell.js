@@ -6,7 +6,7 @@
 var React = require("react");
 var cx = require("react/lib/cx");
 var _ = require("lodash");
-var moment = require("./moment");
+var moment = require("../lib/moment");
 
 
 module.exports = React.createClass({

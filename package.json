@@ -17,23 +17,22 @@
   },
   "homepage": "https://github.com/lmtm/trainings-calendar",
   "dependencies": {
+    "browserify": "^6.3.2",
     "compression": "^1.2.0",
     "connect": "^3.3.3",
     "errorhandler": "^1.2.2",
+    "es6ify": "^1.5.1",
     "instant": "^1.5.0",
+    "lodash": "^2.4.1",
+    "moment": "^2.8.3",
     "morgan": "^1.5.0",
     "open": "0.0.5",
     "optimist": "^0.6.1",
-    "serve-favicon": "^2.1.6",
-    "serve-static": "^1.7.1"
-  },
-  "devDependencies": {
-    "browserify": "^6.3.2",
-    "es6ify": "^1.5.1",
-    "lodash": "^2.4.1",
-    "moment": "^2.8.3",
     "react": "^0.12.0",
     "reactify": "^0.16.0",
+    "reflux": "^0.1.15",
+    "serve-favicon": "^2.1.6",
+    "serve-static": "^1.7.1",
     "watchify": "^2.1.1"
   }
 }

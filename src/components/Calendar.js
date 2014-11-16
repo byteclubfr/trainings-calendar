@@ -4,14 +4,20 @@
 
 
 var React = require("react");
-var moment = require("./moment");
+var moment = require("../lib/moment");
 var _ = require("lodash");
+var Reflux = require("reflux");
+var trainingsStore = require("../stores/trainingsStore");
 
 var CalendarHeader = require("./CalendarHeader");
 var CalendarRow = require("./CalendarRow");
 
 
 module.exports = React.createClass({
+
+  mixins: [
+    Reflux.connect(trainingsStore, "trainings")
+  ],
 
   getDefaultProps() {
     return {
@@ -26,14 +32,15 @@ module.exports = React.createClass({
   getInitialState() {
     return {
       locale:   this.props.locale,
-      trainers: [],
-      subjects: [],
-      dates:    [],
       months:   this.props.months,
       start:    this.props.start,
       weekEnds: this.props.weekEnds,
       holidays: this.props.holidays,
-      adding:   null // {trainer, [subject], [client], startDay, nbDays}
+      willAdd:  null, // {subject, nbDays} → set from other component
+      adding:   null, // {trainer, [subject], [client], startDay, nbDays}
+
+      // Updated from store
+      trainings: { dates: [], trainers: [], subjects: [] }
     }
   },
 
@@ -46,20 +53,22 @@ module.exports = React.createClass({
   },
 
   handleOverCell(date, trainer, event) {
-    this.setState({
-      adding: {trainer: trainer, startDay: date, nbDays: 3}
-    });
+    if (this.state.willAdd) {
+      this.setState({
+        adding: {trainer: trainer, startDay: date, nbDays: this.state.willAdd.nbDays, subject: this.state.willAdd.subject}
+      });
+    }
   },
 
   render() {
-    var start = moment(this.state.start || this.guessStart(this.state.dates), "YYYY-MM");
+    var start = moment(this.state.start || this.guessStart(this.state.trainings.dates), "YYYY-MM");
 
     if (!start.isValid()) {
       return <span>Invalid start date</span>
     }
 
     var months = _.range(this.state.months).map(v => moment(start).add(v, "months").locale(this.state.locale));
-    var dates = this.state.dates;
+    var dates = this.state.trainings.dates;
 
     if (this.state.adding) {
       var endDay = moment(this.state.adding.startDay, "YYYY-MM-DD").add(this.state.adding.nbDays - 1, "days").format("YYYY-MM-DD");
@@ -74,12 +83,12 @@ module.exports = React.createClass({
 
     return (
       <table className="calendar">
-        <CalendarHeader moments={ months } trainers={ this.state.trainers } />
+        <CalendarHeader moments={ months } trainers={ this.state.trainings.trainers } />
         <tbody>{ _.range(31).map(day =>
           <CalendarRow key={ "R" + day }
             months={ months } day={ day + 1 } dates={ dates }
             onOverCell={ this.handleOverCell }
-            trainers={ this.state.trainers } weekEnds={ this.state.weekEnds } holidays={ this.state.holidays } />
+            trainers={ this.state.trainings.trainers } weekEnds={ this.state.weekEnds } holidays={ this.state.holidays } />
         ) }</tbody>
       </table>
     );

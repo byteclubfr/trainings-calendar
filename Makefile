@@ -1,5 +1,5 @@
 SOURCE = src/app.js
-LIBS = $(shell ls src/lib/*.js)
+LIBS = $(shell ls src/lib/*.js src/components/*.js)
 TARGET = src/build.js
 FLAGS = -t reactify -t es6ify
 
