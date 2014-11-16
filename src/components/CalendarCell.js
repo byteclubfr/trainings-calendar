@@ -43,8 +43,10 @@ module.exports = React.createClass({
   },
 
   handleClick(event) {
-    actions.datesAdd();
-    actions.addEnd();
+    if (this._found && this._found.adding && this._found.adding.available) {
+      actions.datesAdd();
+      actions.addEnd();
+    }
   },
 
   render() {
