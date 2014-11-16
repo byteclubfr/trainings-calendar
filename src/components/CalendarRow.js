@@ -14,13 +14,12 @@ module.exports = React.createClass({
 
   getDefaultProps() {
     return {
-      months:     [],     // visible months, instances of moment
-      day:        1,      // day of month
-      dates:      [],     // training dates
-      trainers:   [],     // trainers names
-      weekEnds:   [],     // days of week always busy
-      holidays:   {},     // "YYYY-MM-DD": "holiday"
-      onOverCell: _.noop  // (date, trainer, event)
+      months:     [], // visible months, instances of moment
+      day:        1,  // day of month
+      dates:      [], // training dates
+      trainers:   [], // trainers names
+      weekEnds:   [], // days of week always busy
+      holidays:   {}  // "YYYY-MM-DD": "holiday"
     };
   },
 
@@ -53,7 +52,6 @@ module.exports = React.createClass({
       <td className="day day-of-month">{ dayOfMonth }</td>,
       this.props.trainers.map(trainer =>
         <CalendarCell key={ "CC" + date + "_" + trainer } trainer={ trainer } date={ date }
-          onOver={ this.props.onOverCell }
           dates={ this.props.dates } weekEnds={ this.props.weekEnds } holidays={ this.props.holidays } />
       )
     ];

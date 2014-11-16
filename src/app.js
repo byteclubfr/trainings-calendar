@@ -4,10 +4,12 @@
 
 var React = require("react");
 var Calendar = require("./components/Calendar");
+var NewTrainingForm = require("./components/NewTrainingForm");
 var actions = require("./actions/trainingsActions");
 
 
-React.render(<Calendar className="toto" />, document.getElementById("calendar"));
+React.render(<Calendar />, document.getElementById("calendar"));
+React.render(<NewTrainingForm />, document.getElementById("new-training-form"));
 
 
 var xhr = new XMLHttpRequest();

@@ -7,18 +7,18 @@ var React = require("react");
 var cx = require("react/lib/cx");
 var _ = require("lodash");
 var moment = require("../lib/moment");
+var actions = require("../actions/trainingsActions");
 
 
 module.exports = React.createClass({
 
   getDefaultProps() {
     return {
-      dates:    [],     // training dates
-      trainer:  "",     // trainer name
-      date:     "",     // cell date (String format YYYY-MM-DD)
-      weekEnds: [],     // days of week always busy
-      holidays: {},     // "YYYY-MM-DD": "holiday"
-      onOver:   _.noop  // (date, trainer, event)
+      dates:    [], // training dates
+      trainer:  "", // trainer name
+      date:     "", // cell date (String format YYYY-MM-DD)
+      weekEnds: [], // days of week always busy
+      holidays: {}  // "YYYY-MM-DD": "holiday"
     };
   },
 
@@ -39,7 +39,7 @@ module.exports = React.createClass({
   },
 
   handleMouseOver(event) {
-    this.props.onOver(this.props.date, this.props.trainer, event);
+    actions.addChange({date: this.props.date, trainer: this.props.trainer, event: event});
   },
 
   render() {
