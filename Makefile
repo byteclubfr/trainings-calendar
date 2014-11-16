@@ -1,5 +1,5 @@
 SOURCE = src/app.js
-LIBS = $(shell ls src/lib/*.js src/components/*.js)
+LIBS = $(shell ls src/lib/*.js src/components/*.js src/actions/*.js src/stores/*.js)
 TARGET = src/build.js
 FLAGS = -t reactify -t es6ify
 
@@ -20,7 +20,7 @@ clean:
 	rm -f $(TARGET)
 
 watch:
-	$(WATCHIFY) $(FLAGS) -o $(TARGET) -- $(SOURCE)
+	$(WATCHIFY) --verbose $(FLAGS) -o $(TARGET) -- $(SOURCE)
 
 # Note: browserify --list is so slow, just rely on node_modules
 $(TARGET): $(SOURCE) $(LIBS) node_modules
