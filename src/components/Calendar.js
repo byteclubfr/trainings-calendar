@@ -1,3 +1,4 @@
+/* @flow */
 /* @jsx React.DOM */
 
 "use strict";
@@ -14,6 +15,26 @@ var trainingsStores = require("../stores/trainingsStores");
 var CalendarHeader = require("./CalendarHeader");
 var CalendarRow = require("./CalendarRow");
 
+type TrainingDate = {
+  state:    string;
+  trainer:  string;
+  subject:  string;
+  client:   string;
+  days:     Array<string>;
+};
+
+type State = {
+  locale:   string;
+  months:   number;
+  start:    string;
+  dates:    Array<TrainingDate>;
+  trainers: Array<string>;
+  subjects: Array<string>;
+  adding:   any;
+  weekEnds: Array<number>;
+  holidays: any;
+};
+
 
 module.exports = React.createClass({
 
@@ -26,33 +47,46 @@ module.exports = React.createClass({
     Reflux.connect(trainingsStores.addingStore,   "adding")
   ],
 
+  propTypes: {
+    months:   React.PropTypes.number,
+    start:    React.PropTypes.string,
+    locale:   React.PropTypes.string,
+    weekEnds: React.PropTypes.arrayOf(React.PropTypes.number),
+    holidays: React.PropTypes.objectOf(React.PropTypes.string)
+  },
+
   getDefaultProps() {
     return {
       months: 6,          // Number of visible months
-      start:  null,       // automatic from state.dates, or [year, month]
+      start:  "",         // automatic from state.dates, or "YYYY-MM"
       locale: "fr",       // Localize datetimes
       weekEnds: [6, 0],   // Sat + Sun
       holidays: {}        // "YYYY-MM-DD": "holiday"
     };
   },
 
-  getInitialState() {
+  getInitialState(): State {
+    var dates: Array<TrainingDate> = [];
+    var trainers: Array<string> = [];
+    var subjects: Array<string> = [];
+    var adding: ?any = null;
+
     return {
       locale:   this.props.locale,
       months:   this.props.months,
       start:    this.props.start,
 
       // Updated from stores
-      dates:    [],
-      trainers: [],
-      subjects: [],
-      adding:   null,
+      dates:    dates,
+      trainers: trainers,
+      subjects: subjects,
+      adding:   adding,
       weekEnds: this.props.weekEnds,
       holidays: this.props.holidays
-    }
+    };
   },
 
-  guessStart(dates) {
+  guessStart(dates: Array<TrainingDate>): string {
     // dates = list of {days: [ "ymd", … ], …}
     // pluck → list of [ "ymd", … ]
     // pluck again → list of "ymd"
@@ -60,15 +94,15 @@ module.exports = React.createClass({
     return _.filter(_.pluck(_.filter(_.pluck(dates, "days")), 0)).sort()[0];
   },
 
-  render() {
+  render(): any {
     var start = moment(this.state.start || this.guessStart(this.state.dates), "YYYY-MM");
 
     if (!start.isValid()) {
-      return <span>Invalid start date</span>
+      return <span>{ "Invalid start date" }</span>;
     }
 
-    var months = _.range(this.state.months).map(v => moment(start).add(v, "months").locale(this.state.locale));
     var dates = this.state.dates;
+    var months = _.range(this.state.months).map(v => moment(start).add(v, "months").locale(this.state.locale));
 
     if (this.state.adding && this.state.adding.complete) {
       dates = dates.concat({

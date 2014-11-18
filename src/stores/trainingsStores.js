@@ -1,3 +1,5 @@
+/* @flow */
+
 "use strict";
 
 var Reflux = require("reflux");
@@ -8,7 +10,7 @@ var actions = require("../actions/trainingsActions");
 
 var _willAdd = null, _adding = null;
 
-exports.addingStore = Reflux.createStore({
+var addingStore = Reflux.createStore({
   listenables: actions,
 
   onAddStart(data) {
@@ -49,7 +51,7 @@ exports.addingStore = Reflux.createStore({
 
 var _dates = null;
 
-exports.datesStore = Reflux.createStore({
+var datesStore = Reflux.createStore({
   listenables: actions,
 
   onDatesChange(dates) {
@@ -73,24 +75,24 @@ exports.datesStore = Reflux.createStore({
 
 var _holidays = null;
 
-exports.holidaysStore = Reflux.createStore({
+var holidaysStore = Reflux.createStore({
   listenables: actions,
 
   onHolidaysChange(holidays) {
     _holidays = holidays;
     this.trigger(holidays);
-  },
+  }
 });
 
 var _weekEnds = [0, 6];
 
-exports.weekEndsStore = Reflux.createStore({
+var weekEndsStore = Reflux.createStore({
   listenables: actions,
 
   onWeekEndsChange(weekEnds) {
     _weekEnds = weekEnds;
     this.trigger(weekEnds);
-  },
+  }
 });
 
 
@@ -135,7 +137,7 @@ function _availability(trainer, startDay, nbDays) {
 
 
 
-exports.trainersStore = Reflux.createStore({
+var trainersStore = Reflux.createStore({
   listenables: actions,
 
   onTrainersChange(trainers) {
@@ -143,10 +145,21 @@ exports.trainersStore = Reflux.createStore({
   }
 });
 
-exports.subjectsStore = Reflux.createStore({
+var subjectsStore = Reflux.createStore({
   listenables: actions,
 
   onSubjectsChange(subjects) {
     this.trigger(subjects);
   }
 });
+
+
+
+module.exports = {
+  "addingStore":    addingStore,
+  "datesStore":     datesStore,
+  "holidaysStore":  holidaysStore,
+  "weekEndsStore":  weekEndsStore,
+  "trainersStore":  trainersStore,
+  "subjectsStore":  subjectsStore
+};
