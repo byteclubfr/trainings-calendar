@@ -2,6 +2,8 @@
 
 "use strict";
 
+/* eslint no-multi-str:0 */
+/* eslint quotes:0 */
 
 var React = require("react");
 var moment = require("../lib/moment");

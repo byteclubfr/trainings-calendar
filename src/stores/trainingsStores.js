@@ -102,7 +102,7 @@ function _availability(trainer, startDay, nbDays) {
   // Week-End in range?
   if (_weekEnds && _weekEnds.length) {
     if (_.any(range, d => _.contains(_weekEnds, Number(d.format("d"))))) {
-      return {available: false, reason: "week-end"}
+      return {available: false, reason: "week-end"};
     }
   }
 
